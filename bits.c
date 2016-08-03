@@ -150,15 +150,7 @@ int bitAnd(int x, int y) {
  *   Rating: 2
  */
 int getByte(int x, int n) {
-
-
-
-
-
-
-
-  return 2;
-
+  return ((x >> (n<<3)) & 0xFF);
 }
 /*
  * logicalShift - shift x to the right by n, using a logical shift
