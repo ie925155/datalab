@@ -186,7 +186,15 @@ int bitCount(int x) {
  *   Rating: 4
  */
 int bang(int x) {
-  return 2;
+  /*
+   * when x = 0, the sign bit of x | (-x) is 0
+   * when x != 0, the sign bit of x | (-x) is 1
+   * after right shifting 31 bits, it becomes 0 or 0xFFFFFFFF
+   * using add 1 instead of ! operation
+   */
+  int negX = ~x + 1;
+  int sign = (x | negX) >> 31;
+  return sign + 1;;
 }
 /*
  * tmin - return minimum two's complement integer
