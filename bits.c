@@ -235,7 +235,16 @@ int fitsBits(int x, int n) {
  *   Rating: 2
  */
 int divpwr2(int x, int n) {
-    return 2;
+ 	/*
+   *  first have to compute the bias so rounds towards 0
+	 *  we only add the bias if x < 0, so we can use its MSB as the start
+	 *  if it is 0 we do nothing, if it is 1 we will add something 
+  */
+	int xMSB = ((x>>31) & 1);
+	int bias = xMSB;
+	bias = bias << n;
+	bias += ((xMSB<<31) >>31); /*1<<31>>31 == -1, or still 0 if xMSB = 0*/
+  return ((x + bias) >> n);
 }
 /*
  * negate - return -x
