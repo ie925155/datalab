@@ -238,7 +238,7 @@ int divpwr2(int x, int n) {
  	/*
    *  first have to compute the bias so rounds towards 0
 	 *  we only add the bias if x < 0, so we can use its MSB as the start
-	 *  if it is 0 we do nothing, if it is 1 we will add something 
+	 *  if it is 0 we do nothing, if it is 1 we will add something
   */
 	int xMSB = ((x>>31) & 1);
 	int bias = xMSB;
@@ -254,7 +254,7 @@ int divpwr2(int x, int n) {
  *   Rating: 2
  */
 int negate(int x) {
-  return 2;
+  return (~x + 1);
 }
 /*
  * isPositive - return 1 if x > 0, return 0 otherwise
