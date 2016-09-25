@@ -194,7 +194,7 @@ int bang(int x) {
    */
   int negX = ~x + 1;
   int sign = (x | negX) >> 31;
-  return sign + 1;;
+  return sign + 1;
 }
 /*
  * tmin - return minimum two's complement integer
@@ -264,7 +264,8 @@ int negate(int x) {
  *   Rating: 3
  */
 int isPositive(int x) {
-  return 2;
+  // !x is to check if the number is zero.
+  return !(((x >> 31) & 1) | !x);
 }
 /*
  * isLessOrEqual - if x <= y  then return 1, else return 0
