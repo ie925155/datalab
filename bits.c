@@ -275,7 +275,17 @@ int isPositive(int x) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-  return 2;
+  // case1: x, y different sign (x < 0, y > 0)
+  // case2: x, y same sign (++ , --), y - x > 0
+  int addY = (~x+1) + y;  // y - x
+  int sign_bit = addY >> 31 & 1;
+  int leftBit = 1 << 31;
+
+  int xMSB = leftBit & x;
+  int yMSB = leftBit & y;
+  int xOrd = xMSB ^ yMSB;
+  xOrd = (xOrd >> 31) & 1;
+  return (xOrd & (xMSB>>31)) | (!sign_bit & !xOrd);
 }
 /*
  * ilog2 - return floor(log base 2 of x), where x > 0
