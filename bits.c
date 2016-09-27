@@ -295,7 +295,32 @@ int isLessOrEqual(int x, int y) {
  *   Rating: 4
  */
 int ilog2(int x) {
-  return 2;
+  /* calculates the log by checking the first four bytes, then two, then 1 then 4 bits ...*/
+  int mask1 = 0xFFFF << 16;
+  int mask2 = 0xFF << 8;
+  int mask3 = 0xF0;
+  int mask4 = 0x0C;
+  int output = 0;
+  int shift;
+  shift = !!(x & mask1) << 4; /* if anythings in high 4 bytes, output is at least 16 */
+  x >>= shift; /* bring the high bits down, if anythings up there */
+  output += shift;
+
+  shift = !!(x & mask2) << 3; /* check next two bytes, if anythings there, its at least 8 more*/
+  x >>= shift;
+  output += shift;
+
+  shift = !!(x & mask3) << 2; /* check the next byte, if anythings there, its at least 4 more */
+  x >>= shift;
+  output += shift;
+
+  shift = !!(x & mask4) << 1; /* check the next 4 bits, if anythings there, its at least 2 more */
+  x >>= shift;
+  output += shift;
+
+  output += (x >> 1); /* check the second to last bit, if anythings there, its 1 more */
+  /* can disregard the last bit, because it wont matter if to the log */
+  return output;
 }
 /*
  * float_neg - Return bit-level equivalent of expression -f for
