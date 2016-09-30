@@ -334,7 +334,11 @@ int ilog2(int x) {
  *   Rating: 2
  */
 unsigned float_neg(unsigned uf) {
- return 2;
+ // uf is NaN, return argument
+ unsigned frac = (uf&0xFF || (uf>>8)&0xFF || (uf>>16)&0x7F);
+ unsigned exp = (uf>>23)&0xFF;
+ if(frac != 0 && exp == 0xFF) return uf;
+ return uf^0x80000000; // change sign bit
 }
 /*
  * float_i2f - Return bit-level equivalent of expression (float) x
