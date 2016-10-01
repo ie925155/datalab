@@ -350,7 +350,25 @@ unsigned float_neg(unsigned uf) {
  *   Rating: 4
  */
 unsigned float_i2f(int x) {
-  return 2;
+ int e = 158;
+ int mask = 1<<31;
+ int sign = x&mask;
+ int frac;
+ if (x == mask)
+   return mask | (e<<23);
+ if (!x)
+   return 0;
+ if (sign)
+   x = ~x + 1;
+ while (!(x&mask)) {
+   x = x<<1;
+   e = e - 1;
+ }
+ frac = (x&(~mask)) >> 8;
+ //Rounding (round to nearest)
+ if (x&0x80 && (x&0x7F || frac&1))
+   frac = frac + 1;
+ return sign + (e<<23) + frac;
 }
 /*
  * float_twice - Return bit-level equivalent of expression 2*f for
