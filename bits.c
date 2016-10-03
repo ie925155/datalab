@@ -382,5 +382,16 @@ unsigned float_i2f(int x) {
  *   Rating: 4
  */
 unsigned float_twice(unsigned uf) {
-  return 2;
+  unsigned f=uf;
+  /* Computer 2*f. If f is a NaN, then return f. */
+  if ((f & 0x7F800000) == 0){ //case of denormalized values
+	//shift one bit to left
+	f = ((f & 0x007FFFFF)<<1) | (0x80000000 & f);
+  }
+  else if ((f & 0x7F800000) != 0x7F800000){ //case of normalized values
+	/* Float has a special exponent. */
+	/* Increment exponent, effectively multiplying by 2. */
+	f =f+0x00800000;
+  }
+  return f;
 }
